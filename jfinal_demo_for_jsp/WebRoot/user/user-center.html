@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="/style/Font-Awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="/style/yh-wap.css" />
+    <script src="/js/head.min.js"></script>
+    <script>
+        head.js("/js/jquery-1.10.2.min.js","/js/jquery.cookie.js" );
+        head.ready(function(){
+            var sessionid = $.cookie('sessionid');
+            $.ajax({
+                url : 'http://localhost:60002/user/queryUser.do?sessionid='+sessionid+'',
+                type : 'get',
+                success : function( data ){
+                    $('#user-head').find('img').attr('src','http://localhost:60002/user/getImage/'+data.data.himage+'.do');
+                }
+            });
+            //上传头像
+            function fileSelect2(e,fn) {
+                e = e || window.event;
+                var files = this.files;
+                var p = document.getElementById('user-head');
+
+                for(var i = 0, f; f = files[i]; i++) {
+                    var reader = new FileReader();
+                    reader.onload = (function(file) {
+                        return function(e) {
+                            //var span = document.createElement('span');
+                            p.innerHTML = '<img width="100" src="'+ this.result +'" alt="'+ file.name +'" />';
+                            //p.insertBefore(span, null);
+                        };
+                    })(f);
+                    //读取文件内容
+                    reader.readAsDataURL(f);
+                }
+                uploadHead();
+            }
+            document.getElementById('upload-head').addEventListener('change', fileSelect2, false);
+            function uploadHead(){ //上传头像
+                var test = /\/([^\/]*?\.jpg)/i;
+                var pic = test.exec($('#user-head').find('img').attr('src'))[1];
+                //console.log(pic)
+                $.ajax({
+                    url : 'http://localhost:60002/user/updateImageByUser.do?sessionid='+sessionid+'&pic='+pic+'',
+                    type : 'get'
+                });
+            };
+        });
+    </script>
+</head>
+<body style="padding:45px 0 45px;">
+<header>
+    <i class="icon-angle-left fs30"></i>
+    <h1 class="fs16">个人中心</h1>
+</header>
+<section class="user-centerbg pdt10">
+    <div class="user-head-box mgauto ">
+        <input type="file" class="upload-head" id="upload-head" />
+        <div class="user-head" id="user-head">
+            <img  src="/images/user/h_main_NNN4_e80a000007df111a.jpg" />
+        </div>
+    </div>
+    <p class="txcenter fs14 colorWhite mt5">Amily</p>
+    <a class="btu2 fs14" href="" >
+        <i class="icon-magic"></i>
+        <span>我的行程</span>
+    </a>
+</section>
+<section class="bgfff mt10 user-center-list">
+    <ul class="ul-list">
+        <li>
+            <a href="">
+                <i class="icon-file-alt fleft fs16 mr10"></i>
+                <span>我的信息</span>
+                <em class="icon-angle-right"></em>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="icon-tags fleft fs16 mr10"></i>
+                <span>旅行标签</span>
+                <em class="icon-angle-right"></em>
+            </a>
+        </li>
+    </ul>
+</section>
+<section class="bgfff mt10 user-center-list">
+    <ul class="ul-list">
+        <li>
+            <a href="">
+                <i class="icon-star-empty fleft fs18 mr10"></i>
+                <span>我的收藏</span>
+                <em class="icon-angle-right"></em>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="icon-cog fleft fs18 mr10"></i>
+                <span>设置</span>
+                <em class="icon-angle-right"></em>
+            </a>
+        </li>
+    </ul>
+</section>
+
+<!--<footer>
+    <ul class="cover-list txcenter fs14" style="line-height: 45px;">
+        <li>
+            <a href="">
+                <i class="icon-eye-open"></i>
+                <span>发现</span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class=" icon-magic"></i>
+                <span>智能行程</span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="icon-heart-empty"></i>
+                <span>我的</span>
+            </a>
+        </li>
+    </ul>
+</footer>-->
+
+</body>
+</html>

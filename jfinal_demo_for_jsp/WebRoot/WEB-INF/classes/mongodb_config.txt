@@ -1,0 +1,5 @@
+mongodb.host=192.168.1.88
+mongodb.config=27017
+mongodb.name=yoohooo
+mongodb.username=yhdev
+mongodb.password=yhdev

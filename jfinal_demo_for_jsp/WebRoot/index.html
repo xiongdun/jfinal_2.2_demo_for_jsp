@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>游乎</title>
+    <link rel="stylesheet" href="/style/Font-Awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="/style/yh-wap.css" />
+    <script src="/js/head.min.js"></script>
+    <script>
+        head.js("/js/jquery-1.10.2.min.js","/js/pretend.js","/js/jquery.cookie.js","/js/dragBlock.js" );
+        head.ready(function(){
+            dragBlock("#dragSign");
+            function loaddata(url,type,fn){
+                $.ajax({
+                    url:url,
+                    type : type,
+                    dataType : 'json',
+                    async : false,
+                    success : function(data){
+                        fn(data)
+                    }
+                })
+            };
+
+            loaddata('http://localhost:50002/country/getNewZone.do','get',function(data){ //热门目的地
+                if( data.code == 1 ){
+                    var data = data.data;
+                    $.each(data,function(i,item){
+                        var $li =$('<li>');
+                        $li.html('<a href=""><div class="hotloadimg"><img src="http://localhost:60002/user/getImage/'+item.image_key+'.do" /></div><p class="overflow txcenter">'+item.name+'</p></a>');
+                        if($li.find('img').attr('src') == ""){
+                            $li.find('img').attr('src','/images/index/hotload2.jpg')
+                        }
+                        $li.data('hotcityId',item.id);
+                        $li.data('hotcityLevel',item.level);
+                        $('#hotInner').append($li);
+                    });
+                }
+            });
+
+            $(window).resize(function(){
+                //[SideBannerOne();
+            });
+            SideBannerOne();
+            function SideBannerOne(){ //banner滚动
+                SideBanner({
+                    obj1 : ".banner", //外容器节点
+                    obj2 : ".banner ul", //滑动ul
+                    obj3 : ".bannerBtn", //高亮的节点
+                    autoPlay : true,
+                    time : "4000"
+                });
+            };
+            //热门目的地
+            Side({
+                obj1 : "hotWrap", //相对定位容器的id
+                obj2 : "hotInner", //绝对定位容器的id
+                axis : "X"  //滑动的方向X或Y
+            });
+
+            loaddata('http://localhost:50002/label/getNewLabel.do','get',function(data){  //热门主题
+                if(data.code == 1){
+                    var data = data.data.list;
+                    $.each(data,function(i,elem){
+                        var $li = $('<li>');
+                        $li.html( '<a href=""><div class="hotloadimg"><img src="http://localhost:60002/user/getImage/'+elem.image_key+'.do" /></div><p class="overflow txcenter">'+elem.themeName+'</p></a>')
+                        if($li.find('img').attr('src') == ""){
+                            $li.find('img').attr('src','/images/index/hotload1.jpg')
+                        }
+                        $li.data('themeId',elem.themeId);
+                        $('#themeInner').append($li);
+                    })
+                }
+            })
+            //热门主题
+            Side({
+                obj1 : "themeWrap", //相对定位容器的id
+                obj2 : "themeInner", //绝对定位容器的id
+                axis : "X"  //滑动的方向X或Y
+            });
+            //$('#hotWrap').width($(this).children().length*$(this).children().eq(0).outerWidth())
+            $('#hotInner').css('width',$('#hotInner').children().length*$('#hotInner').children().eq(0).outerWidth(true));
+            $('#themeInner').css('width',$('#themeInner').children().length*$('#themeInner').children().eq(0).outerWidth(true));
+
+        });
+    </script>
+</head>
+<body>
+<a href="javascript:;" id="dragSign" class="icon-user"></a>
+<section class="banner">
+    <div class="search-box">
+        <div style="margin: 0 30px;">
+        <span class="colorBlank9">
+            <i class="icon-search fs15"></i>
+            <b>搜索目的地、主题、景点</b>
+        </span>
+            <input id="search" class="search" type="text">
+        </div>
+    </div>
+    <div class="bannerBtn"></div>
+    <ul>
+        <li>
+            <img src="/images/index/3.jpg" />
+        </li>
+        <li>
+            <img src="/images/index/2.jpg" />
+        </li>
+        <li>
+            <img src="/images/index/1.jpg" />
+        </li>
+    </ul>
+</section>
+<section class="mt10 bgfff pd10 pdb10">
+    <div class="overflow">
+        <h4 class="fs14 fleft pdl5" style="border-left: 3px solid #34d3e6;">热门目的地</h4>
+        <a href="" class="icon-angle-right fright fs20 mt5 colorBlank9"></a>
+    </div>
+    <div id="hotWrap" class="hot-land-wrap">
+        <ul id="hotInner" class="hot-land-inner">
+            <!--<li>
+                <a href="">
+                    <div class="hotloadimg">
+                        <img src="/images/index/hotload1.jpg" />
+                    </div>
+                    <p class="overflow txcenter">云南</p>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</section>
+<section class="mt10 bgfff pd10 pdb10">
+    <div class="overflow">
+        <h4 class="fs14 fleft pdl5" style="border-left: 3px solid #34d3e6;">热门主题</h4>
+        <a href="" class="icon-angle-right fright fs20 mt5 colorBlank9"></a>
+    </div>
+    <div id="themeWrap" class="hot-land-wrap">
+        <ul id="themeInner" class="hot-land-inner">
+            <!--<li>
+                <a href="">
+                    <div class="hotloadimg">
+                        <img src="/images/index/hotload1.jpg" />
+                    </div>
+                    <p class="overflow txcenter">云南</p>
+                </a>
+            </li>-->
+        </ul>
+    </div>
+</section>
+<section class="hot-ine">
+    <div class="overflow txcenter mgauto" style="width: 140px;">
+        <span class="hot-line-icon fleft"></span>
+        <span class=" fs18 fleft mt20">热门线路</span>
+    </div>
+    <div class="hot-line-single bgfff mb10">
+        <div class="line-img">
+            <img src="/images/index/hotline1.jpg" />
+        </div>
+        <div class="pd10 ">
+            <h4 class="fs14">线路标题厦门2日游</h4>
+        </div>
+    </div>
+    <div class="hot-line-single bgfff mb10">
+        <div class="line-img">
+            <img src="/images/index/hotline2.jpg" />
+        </div>
+        <div class="pd10 ">
+            <h4 class="fs14">线路标题厦门2日游</h4>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

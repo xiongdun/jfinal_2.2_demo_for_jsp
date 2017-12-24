@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>搜索</title>
+    <link rel="stylesheet" href="/style/Font-Awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="/style/yh-wap.css" />
+    <script src="/js/head.min.js"></script>
+    <script>
+        head.js("/js/jquery-1.10.2.min.js","/js/jquery.cookie.js",'/js/inc/usertest.js' );
+        head.ready(function(){
+            $('#search').trigger('focus');
+            $('#search').on('input',function(){
+                if( $(this).val() != "" ){
+                    ajaxload('http://localhost:60002/country/search.do?name='+$(this).val() ,'get',function(data){
+                        console.log( data )
+                    });
+                    $('#searchrecomm').fadeOut(0)
+                }else{
+                    $('#searchrecomm').fadeIn(0)
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div class="searches-box">
+    <div class="searches-box-inner">
+        <i class="icon-search fs16 colorBlank9"></i>
+        <input type="text" id="search" placeholder="搜索目的地、主题、景点">
+    </div>
+    <a class="seach-cancel" href="javascript:;">取消</a>
+</div>
+
+<section id="searchrecomm" style="display: none;">
+    <div class="overflow mt10">
+        <h4 class="fs15 pdl10">热门搜索</h4>
+        <ul class="bgfff overflow hot-mask">
+            <li>
+                <a href="">热门景点</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+        </ul>
+    </div>
+    <div class="overflow mt10">
+        <h4 class="fs15 pdl10">
+            <span>我的记录</span>
+            <a class="fright pdr20 fs13" href="" style="color: #62c0cc;">清除</a>
+        </h4>
+        <ul class="bgfff ul-list search-ul-list ">
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+            <li>
+                <a href="">迪士尼</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="mt10">
+    <ul class="cover-list txcenter search-result-nav bgfff fs14">
+        <li>
+            <a class="active" href="">景点</a>
+        </li>
+        <li>
+            <a href="">线路</a>
+        </li>
+    </ul>
+    <ul class="search-result-list1">
+        <li>
+            <a href="">
+                <div class="search-result-img">
+                    <img src="/images/index/searchimg.jpg" />
+                </div>
+                <p class="txcenter lh30 fs14 overflow">茶溪谷</p>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <div class="search-result-img">
+                    <img src="/images/index/searchimg.jpg" />
+                </div>
+                <p class="txcenter lh30 fs14 overflow">欢乐园</p>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <div class="search-result-img">
+                    <img src="/images/index/searchimg.jpg" />
+                </div>
+                <p class="txcenter lh30 fs14 overflow">天鹅堡</p>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <div class="search-result-img">
+                    <img src="/images/index/searchimg.jpg" />
+                </div>
+                <p class="txcenter lh30 fs14 overflow">苏河湾</p>
+            </a>
+        </li>
+    </ul>
+</section>
+
+</body>
+</html>

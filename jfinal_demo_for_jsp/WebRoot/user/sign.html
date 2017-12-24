@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/style/Font-Awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="/style/yh-wap.css" />
+    <script src="/js/head.min.js"></script>
+    <script>
+        head.js("/js/jquery-1.10.2.min.js","/js/jquery.cookie.js","/js/inc/usertest.js" );
+        head.ready(function(){
+            $('#signBtn').click(function(){
+                var phone = $("input[name=phone]").val();
+                var password = $("input[name=password]").val();
+                var passrepeat = $("input[name=passrepeat]").val();
+                if( !userName( phone ) ){
+                    $("input[name=phone]").next('span').html('*用户名不正确');
+                    //alert( '用户名不正确' )
+                };
+                if( !userPassword(password) ){
+                    $("input[name=password]").next('span').html('*密码不合理');
+                    //alert('密码不正确')
+                };
+                if( userName( phone ) && userPassword(password) ){
+                    $.ajax({
+                        url : 'http://localhost:60002/user/login.do?phone='+phone+'&password='+password+'',
+                        type : 'GET',
+                        dataType : 'json',
+                        //data : $('#regForm').serialize(),
+                        success : function(data){
+                            if( data.code == 1 ){
+                                window.location.href = 'http://localhost:60002/user/user-center.html';
+                                $.cookie('sessionid',data.sessionid , {expires:1,path:'/'});
+                            }else if( data.code == 2 ){
+                                alert('用户名或密码错误')
+                            }else if( data.code == 3 ){
+                                alert('登录超时')
+                            }
+                        }
+                    });
+                };
+            });
+        });
+    </script>
+    <title>登录</title>
+</head>
+<body style="padding-top:45px;">
+<header>
+    <i class="icon-angle-left fs30" onclick="history.go(-1)"></i>
+    <h1 class="fs16">注册</h1>
+</header>
+<form id="redForm" action="">
+    <div class="pd10 mt20" style="background: #fff;">
+        <div class="redbox">
+            <i class="icon-mobile-phone fs25 colorGreen"></i>
+            <input class="pdl20 fs15" name="phone" type="text" placeholder="请输入您的手机号" />
+            <span class="pointer"></span>
+        </div>
+        <div class="redbox">
+            <i class="icon-lock fs20 colorGreen"></i>
+            <input class="pdl20 fs15" name="password" type="password" placeholder="请输入您的密码 " />
+            <span class="pointer"></span>
+        </div>
+    </div>
+    <div class="redbox pd10 mt30">
+        <a class="btu1 txcenter lh40 fs16" id="signBtn" href="javascript:;">登录</a>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加标签表数据</title>
+<style type="text/css">
+html, div, h4, h1, h3 {
+	padding: 0;
+	margin: 0;
+}
+.content {
+	margin: 0 auto;
+	width: 400px;
+	min-height: 500px;
+	background: #DEF5DE;
+}
+
+.content form {
+	margin: 0 auto;
+}
+
+.content form input {
+	width: 220px;
+	height: 25px;
+	border: 1px solid green;
+	border-radius: 5px;
+	margin-left: 50px;
+	margin-top: 20px;
+}
+</style>
+</head>
+<body>
+	<div class="content">
+		<h3>添加标签信息</h3>
+		<form action="" method="POST">
+			<table>
+				<tr>
+					<td>主题 Id：</td>
+					<td><input type="text" name="yhLabel.themeId"/></td>
+				</tr>
+				<tr>
+					<td>主题名称：</td>
+					<td><input type="text" name="yhLabel.themeName" /></td>
+				</tr>
+				<tr>
+					<td>来源：</td>
+					<td><input type="text" name="yhLabel.source" /></td>
+				</tr>
+				<tr>
+					<td>热度：</td>
+					<td><input type="text" name="yhLabel.heat"></td>
+				</tr>
+				<tr>
+					<td>父级 Id：</td>
+					<td><input type="text" name="yhLabel.parent_id"></td>
+				</tr>
+				<tr>
+					<td>等级：</td>
+					<td><input type="text" name="yhLabel.level"></td>
+				</tr>
+				<tr>
+					<td>类型：</td>
+					<td><input type="text" name="yhLabel.type"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="提交表单"/></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="/style/Font-Awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="/style/yh-wap.css" />
+    <script src="/js/head.min.js"></script>
+    <script>
+        head.js("/js/jquery-1.10.2.min.js","/js/inc/usertest.js" );
+        head.ready(function(){
+            $('#regBtn').click(function(){
+                var phone = $("input[name=phone]").val();
+                var password = $("input[name=password]").val();
+                var passrepeat = $("input[name=passrepeat]").val();
+                if( !userName( phone ) ){
+                    alert( '用户名不正确' )
+                };
+                if( !userPassword(password) ){
+                    alert('密码不正确')
+                };
+                if(!userPassrepeat(password,passrepeat)){
+                    alert('两次输入密码不同')
+                };
+                if( userName( phone ) && userPassword(password) && userPassrepeat(password,passrepeat) ){
+                    //http://192.168.1.203:60002/user/addUser.do?phone='+phone+'&password='+password+'
+                   $.ajax({
+                        url : 'http://localhost:60002/user/addUser.do?phone='+phone+'&password='+password+'',
+                        type : 'get',
+                        success : function(data){
+                            if( data.code == 1 ){
+                                alert('注册成功')
+                            }else if( data.code == 2){
+                                alert('该手机号已被注册')
+                            }else if(data.code == 3){
+                                alert('登录超时')
+                            };
+                        }
+                    });
+                };
+            });
+            function userName(str){
+                var reg=/^[1][358][0-9]{9}$/;
+                if(reg.test(str)){
+                    return true;
+                }else{
+                    return false;
+                }
+            };
+            function userPassword(str){
+                var reg = /^[a-z0-9_-]{6,18}$/;
+                if(reg.test(str)){
+                    return true;
+                }else{
+                    return false;
+                }
+            };
+            function userPassrepeat(str1 , str2){
+                if(str1 != str2){
+                    return false;
+                }
+                return true;
+            }
+        });
+    </script>
+    <title>登录</title>
+</head>
+<body style="padding-top:45px;">
+<header>
+    <i class="icon-angle-left fs30" onclick="history.go(-1)"></i>
+    <h1 class="fs16">注册</h1>
+</header>
+<form id="redForm" action="">
+    <div class="pd10 mt20" style="background: #fff;">
+        <div class="redbox">
+            <i class="icon-mobile-phone fs25 colorGreen"></i>
+            <input class="pdl20 fs15" name="phone" type="text" value="" placeholder="请输入您的手机号" />
+        </div>
+        <div class="redbox">
+            <i class="icon-lock fs20 colorGreen"></i>
+            <input class="pdl20 fs15" name="password" type="password" value="" placeholder="设置6-18位密码（数字、字母、符号） " />
+        </div>
+        <div class="redbox">
+            <i class="icon-lock fs20 colorGreen"></i>
+            <input class="pdl20 fs15" type="password" name="passrepeat" value="" placeholder="再次输入密码，两次密码要一致哦！" />
+        </div>
+    </div>
+    <div class="redbox pd10 mt30">
+        <a class="btu1 txcenter lh40 fs16" id="regBtn" href="javascript:;">注册</a> 
+    </div>
+</form>
+</body>
+</html>
